@@ -1,7 +1,11 @@
-import Vue from 'vue/dist/vue.js'
+import Vue from 'vue'
 import Vuex from 'vuex'
 
 import user from './modules/user'
+import drawer from './modules/drawer'
+import userFeedback from './modules/userFeedback'
+import documents from './modules/documents'
+import quillJS from './modules/quillJS'
 
 Vue.use(Vuex)
 
@@ -19,6 +23,10 @@ export const store = new Vuex.Store({
 
     },
     modules: {
-        user
+        user,
+        drawer,
+        userFeedback,
+        documents,
+        quillJS
     }
 })

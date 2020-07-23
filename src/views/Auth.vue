@@ -1,8 +1,14 @@
 <template>
+<!--
   <div>
     <h1>Sign in</h1>
     <div id="firebaseui-auth-container"></div>
   </div>
+  -->
+  <v-container>
+        <h1>Sign in</h1>
+    <div id="firebaseui-auth-container"></div>
+  </v-container>
 </template>
 
 <script>
