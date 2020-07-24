@@ -1,13 +1,11 @@
 import Quill from "quill";
 import { db } from "../../db";
-//import '../plugins/highlight';
 
-//import 'highlight.js/styles/monokai-sublime.min.css'
-//import 'highlight.js'
 
-window.hljs.configure({   // optionally configure hljs
-   // languages: ['javascript', 'ruby', 'python']
-  });
+window.hljs.configure({
+  // optionally configure hljs
+  // languages: ['javascript', 'ruby', 'python']
+});
 
 const state = {
   editorContent: null,
@@ -26,6 +24,12 @@ const state = {
         ["link", "image", "video"],
         [{ direction: "rtl" }],
       ],
+      keyboard: {
+        bindings: {
+          "indent code-block": null,
+          "outdent code-block": null,
+        },
+      },
     },
     theme: "snow",
   },
