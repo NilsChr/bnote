@@ -7,10 +7,6 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
-    "@editorjs/editorjs": "^2.18.0",
-    "@editorjs/header": "^2.5.0",
-    "@editorjs/list": "^1.5.0",
-    "@editorjs/paragraph": "^2.7.0",
     "core-js": "^3.6.5",
     "firebase": "^7.16.1",
     "firebaseui": "^4.6.0",
@@ -23,7 +19,6 @@
     "vuex": "^3.5.1"
   },
   "devDependencies": {
-    "@editorjs/code": "^2.5.0",
     "@vue/cli-plugin-babel": "~4.4.0",
     "@vue/cli-plugin-router": "~4.4.0",
     "@vue/cli-plugin-vuex": "~4.4.0",
