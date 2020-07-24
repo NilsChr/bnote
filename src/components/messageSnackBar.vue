@@ -1,3 +1,10 @@
+<!--
+USAGE
+this.$store.dispatch("userFeedback/setText", {
+      text: "Hello world",
+      color: "success"
+});
+-->
 <template>
   <div class="text-center">
     <v-snackbar

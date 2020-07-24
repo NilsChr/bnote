@@ -1,11 +1,8 @@
 <template>
   <v-container fluid class="pt-0 pl-0 pb-0" fill-height style="background-color: rgb(245,245,245);">
     <NavBar />
-    
-        <NavDrawer/>
-
-        <Document />
-
+    <NavDrawer />
+    <Document />
     <MessageSnackBar />
   </v-container>
 </template>
@@ -36,10 +33,12 @@ export default {
     }
   },
   created() {
+    /*
     this.$store.dispatch("userFeedback/setText", {
       text: "Hello world",
       color: "success"
     });
+    */
   }
 };
 </script>

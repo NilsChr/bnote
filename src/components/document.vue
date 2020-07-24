@@ -12,58 +12,12 @@
       </v-flex>
       <v-flex xs6 class="pa-2">
         <v-layout justify-end>
-          <v-slide-x-transition group>
-            <v-btn
-              class="mx-2 ma-0"
-              fab
-              dark
-              color="red"
-              small
-              style="width:40px; height:40px;"
-              @click="deleteModal = true"
-              :disabled="!canEdit"
-              v-if="canEdit"
-              key="btnDelete"
-            >
-              <v-icon dark>mdi-delete</v-icon>
-            </v-btn>
-          </v-slide-x-transition>
-          <v-dialog v-model="deleteModal" persistent max-width="290">
-            <v-card>
-              <v-card-title class="headline">Delete document?</v-card-title>
-              <v-card-text>Are you sure you want to delete this document?</v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="green darken-1" text @click="deleteDocument(false)">No</v-btn>
-                <v-btn color="red darken-1" text @click="deleteDocument(true)">Yes</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
+          <buttonDeleteDocument />
+          <buttonToggleEdit />
 
-          <v-btn
-            class="mx-2 ma-0"
-            fab
-            dark
-            :color="editColor()"
-            small
-            style="width:40px; height:40px;"
-            @click="toggleEdit()"
-            key="btnEdit"
-          >
-            <v-icon dark>mdi-pencil</v-icon>
-          </v-btn>
-
-          <v-btn
-            class="mx-2 ma-0"
-            fab
-            dark
-            color="primary"
-            small
-            style="width:40px; height:40px;"
-            key="btnShare"
-          >
-            <v-icon dark>mdi-share-variant</v-icon>
-          </v-btn>
+          <!--
+          <buttonShareDocument />
+          -->
         </v-layout>
       </v-flex>
 
@@ -75,10 +29,16 @@
 
 <script>
 import bnoteQuill from "@/components/editors/bnoteQuill";
+import buttonDeleteDocument from "@/components/buttons/buttonDeleteDocument";
+import buttonToggleEdit from "@/components/buttons/buttonToggleEdit";
+import buttonShareDocument from "@/components/buttons/buttonShareDocument";
 
 export default {
   components: {
-    bnoteQuill
+    bnoteQuill,
+    buttonDeleteDocument,
+    buttonToggleEdit,
+    buttonShareDocument
   },
   data: () => ({
     deleteModal: false,
@@ -129,7 +89,7 @@ export default {
     },
     canEdit: {
       get() {
-        return this.$store.getters["quillJS/canEdit"]
+        return this.$store.getters["quillJS/canEdit"];
       },
       set(val) {
         this.$store.dispatch("quillJS/setCanEdit", val);

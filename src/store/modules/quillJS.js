@@ -1,11 +1,20 @@
 import Quill from "quill";
 import { db } from "../../db";
+//import '../plugins/highlight';
+
+//import 'highlight.js/styles/monokai-sublime.min.css'
+//import 'highlight.js'
+
+window.hljs.configure({   // optionally configure hljs
+   // languages: ['javascript', 'ruby', 'python']
+  });
 
 const state = {
   editorContent: null,
   editorInstance: null,
   editorOpts: {
     modules: {
+      syntax: true,
       toolbar: [
         [{ header: [1, 2, 3, 4, 5, 6, false] }],
         [{ font: [] }],
