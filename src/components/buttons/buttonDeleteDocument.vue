@@ -4,7 +4,7 @@
       class="mx-2 ma-0"
       fab
       dark
-      color="red"
+      color="error"
       small
       style="width:40px; height:40px;"
       @click="deleteModal = true"
@@ -14,7 +14,7 @@
     >
       <v-icon dark>mdi-delete</v-icon>
     </v-btn>
-    
+
     <v-dialog v-model="deleteModal" persistent max-width="290">
       <v-card>
         <v-card-title class="headline">Delete document?</v-card-title>

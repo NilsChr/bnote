@@ -1,6 +1,7 @@
 import Quill from "quill";
 import { db } from "../../db";
 
+import ImageCompress from 'quill-image-compress';
 
 window.hljs.configure({
   // optionally configure hljs
@@ -11,6 +12,8 @@ const state = {
   editorContent: null,
   editorInstance: null,
   editorOpts: {
+    bounds: '#quill-editor',
+
     modules: {
       syntax: true,
       toolbar: [
@@ -30,6 +33,13 @@ const state = {
           "outdent code-block": null,
         },
       },
+      imageCompress: {
+        quality: 0.7, // default
+        maxWidth: 1000, // default
+        maxHeight: 1000, // default
+        imageType: 'image/jpeg/png', // default
+        debug: false, // default
+      }
     },
     theme: "snow",
   },
@@ -55,10 +65,12 @@ const mutations = {
 const actions = {
   initEditor: ({ commit }, payload) => {
     const initializeEditor = function() {
+        Quill.register('modules/imageCompress', ImageCompress);
+
       state.editorInstance = new Quill("#quill-editor", state.editorOpts);
       state.editorInstance.on("text-change", onEditorContentChange);
       setEditorContent();
-      if (payload) state.editorInstance.root.innerHTML = payload.data;
+      if (payload) state.editorInstance.root.innerHTML = payload;
 
       if (!state.canEdit) {
         let qel = document.getElementsByClassName("ql-toolbar")[0];

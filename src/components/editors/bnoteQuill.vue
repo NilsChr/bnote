@@ -43,4 +43,5 @@ export default {
 .hideToolbar .ql-toolbar .ql-snow {
   display: none;
 }
+
 </style>

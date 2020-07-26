@@ -31,7 +31,7 @@
             class="mx-2 ma-0"
             fab
             dark
-            color="indigo"
+            color="secondary"
             small
             style="width:30px; height:30px;"
             @click="createNewDocument"
@@ -84,11 +84,12 @@ export default {
   methods: {
     async createNewDocument() {
       try {
-        await this.$store.dispatch("drawer/createNewDocument");
+        let newDoc = await this.$store.dispatch("documents/createNewDocument");
         this.$store.dispatch("userFeedback/setText", {
           text: "Document succesfully created",
           color: "success"
         });
+        this.$store.dispatch("documents/setSelectedDocument", newDoc);
       } catch (e) {
         this.$store.dispatch("userFeedback/setText", {
           text: "Something went wrong when creating document",
@@ -97,9 +98,7 @@ export default {
       }
     },
     loadDocument(document) {
-
       this.$store.dispatch("documents/setSelectedDocument", document);
-
     },
     getTitle(document) {
       if (document.data.title === "") return "Untitled document";
@@ -137,10 +136,10 @@ export default {
         let documents = JSON.parse(JSON.stringify(this.documents));
         let filtered = [];
         for(let i = 0; i < documents.length; i++) {
-            let topicMatch = documents[i].data.topic.includes(this.searchTopic);
+            let topicMatch = documents[i].data.topic.toLowerCase().includes(this.searchTopic.toLowerCase());
             if(this.searchTopic == '') topicMatch = true;
 
-            let titleMatch = documents[i].data.title.includes(this.searchTitle);
+            let titleMatch = documents[i].data.title.toLowerCase().includes(this.searchTitle.toLowerCase());
             if(this.searchTitle == '') titleMatch = true;
 
             if(topicMatch && titleMatch)
@@ -155,7 +154,7 @@ export default {
 
 <style scoped>
 .selected {
-  border-left: 10px solid rgb(142, 202, 51);
+  border-left: 10px solid #69bd98; /* rgb(142, 202, 51); */
   background-color: rgb(247, 247, 247);
 }
 </style>

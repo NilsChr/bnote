@@ -1,11 +1,11 @@
 <template>
-  <v-app-bar color="deep-purple accent-4" dense dark app clipped-left>
+  <v-app-bar color="primary accent-4" dense dark app clipped-left>
 
-    <v-toolbar-title>BNote</v-toolbar-title>
+    <v-toolbar-title>BLOGAL</v-toolbar-title>
 
     <v-spacer></v-spacer>
 
-    <v-menu left bottom >
+    <v-menu left bottom offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-avatar size="30" v-bind="attrs" v-on="on">
           <img alt="Avatar" :src="user.photoURL" />

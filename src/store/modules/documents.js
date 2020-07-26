@@ -6,14 +6,18 @@ const state = {
     documents: [],
     selectedDocumentMeta: null,
     selectedDocumentData: null,
-    loadingDocument: false
+    loadingDocument: false,
+    maxDocumentSize: 1048487,
+    currentDocumentSize: 0
 }
 
 const getters = {
     documents: state => state.documents,
     selectedDocumentMeta: state => state.selectedDocumentMeta,
     selectedDocumentData: state => state.selectedDocumentData,
-    loadingDocument: state => state.loadingDocument
+    loadingDocument: state => state.loadingDocument,
+    maxDocumentSize: state => state.maxDocumentSize,
+    currentDocumentSize: state => state.currentDocumentSize
 }
 
 const mutations = {
@@ -28,7 +32,10 @@ const mutations = {
     },
     setLoadingDocument: (state, loadingDocument) => {
         state.loadingDocument = loadingDocument;
-    } 
+    },
+    setCurrentDocumentSize: (state, currentDocumentSize) => {
+        state.currentDocumentSize = currentDocumentSize;
+    }
 }
 
 const actions = {
@@ -41,13 +48,8 @@ const actions = {
         db.loadDocumentData(document.data.data).then((data) => {
             commit('setLoadingDocument', false);
             commit('setSelectedDocumentData', data);
-            //store.dispatch("editorJS/initEditor");
-            /*setTimeout(() => {
-                store.dispatch("quillJS/initEditor");
 
-            },100);*/
             Vue.nextTick(function () {
-                // do something cool
                 store.dispatch("quillJS/initEditor", data);
             })
         })
@@ -80,6 +82,16 @@ const actions = {
         if(!state.selectedDocumentMeta) return;
         state.selectedDocumentMeta.data.topic = topic;
         db.updateDocument(state.selectedDocumentMeta);
+    },
+    createNewDocument: ({commit}, data) => {
+        return new Promise((resolve, reject) => {
+            try {
+                db.createNewDocument().then((data) => {
+                    resolve(data);
+                    store.dispatch('quillJS/setCanEdit', true);
+                });
+            } catch(e) { reject(e)}
+        })
     }
 }
 

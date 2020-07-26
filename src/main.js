@@ -6,7 +6,6 @@ import {router} from '@/router'
 import {store} from '@/store'
 import auth from '@/auth'
 import vuetify from './plugins/vuetify';
-import { db } from './db'
 
 Vue.config.productionTip = false
 
@@ -18,7 +17,6 @@ new Vue({
 
   beforeCreate () {
     auth.init(this);
-    db.loadDocuments();
   },
 
   template: '<App/>',

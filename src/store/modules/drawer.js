@@ -26,9 +26,7 @@ const actions = {
     setSearchTopic: ({ commit }, topic) => {
         commit('setSearchTopic', topic)
     },
-    createNewDocument: ({commit}, data) => {
-        db.createNewDocument();
-    }
+
 }
 
 export default {

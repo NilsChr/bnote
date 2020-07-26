@@ -1,6 +1,6 @@
 <template>
   <v-container fluid class="pt-0 pb-0" fill-height>
-    <v-layout v-if="loadingDocument" justify-space-around>
+    <v-layout v-if="loadingDocument" justify-center align-center>
       <v-progress-circular indeterminate color="primary" size="50"></v-progress-circular>
     </v-layout>
     <v-layout v-if="!loadingDocument" justify-space-around wrap align-start>
@@ -21,6 +21,8 @@
         </v-layout>
       </v-flex>
 
+      <documentSizeIndicator />
+
       <!-- QUILL EDITOR -->
       <bnote-quill :edit="canEdit" />
     </v-layout>
@@ -32,17 +34,18 @@ import bnoteQuill from "@/components/editors/bnoteQuill";
 import buttonDeleteDocument from "@/components/buttons/buttonDeleteDocument";
 import buttonToggleEdit from "@/components/buttons/buttonToggleEdit";
 import buttonShareDocument from "@/components/buttons/buttonShareDocument";
+import documentSizeIndicator from "@/components/editors/documentSizeIndicator";
 
 export default {
   components: {
     bnoteQuill,
     buttonDeleteDocument,
     buttonToggleEdit,
-    buttonShareDocument
+    buttonShareDocument,
+    documentSizeIndicator
   },
   data: () => ({
     deleteModal: false,
-    //edit: false,
     value: null
   }),
   methods: {
@@ -94,6 +97,11 @@ export default {
       set(val) {
         this.$store.dispatch("quillJS/setCanEdit", val);
       }
+    },
+    documentSize() {
+      let max = this.$store.getters["documents/maxDocumentSize"];
+      let current = this.$store.getters["documents/currentDocumentSize"];
+      return (current / max) * 100;
     }
   },
   mounted() {}
