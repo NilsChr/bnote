@@ -2,7 +2,6 @@ import auth from '../auth';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import {store} from '@/store';
-import LZstring from 'lz-string';
 import util from '../util/util';
 
 const test = process.env.NODE_ENV === 'development' ? '_test' : '';
@@ -55,7 +54,6 @@ export const db = {
     loadDocumentData(id) {
         return new Promise((resolve, reject) => {
             firebase.firestore().collection(db.firebase_collections.documentData).doc(id).get().then(document => {
-                //let uncompressed = LZstring.decompress(document.data().data);
                 resolve(document.data().data);
             }).catch(e => {
                 reject(e);
@@ -84,13 +82,9 @@ export const db = {
     },
 
     updateDocumentData(data) {
-
-        console.log(util.memorySizeOf(data));
-
         store.commit('documents/setCurrentDocumentSize', util.memorySizeOfInBytes(data))
 
         let documentId = store.getters['documents/selectedDocumentMeta'].data.data;
-        //let compressed = LZstring.compress(data);
         firebase.firestore().collection(db.firebase_collections.documentData).doc(documentId).set({data:data});
     }
 

@@ -25,9 +25,7 @@ const auth = {
     this.uiConfig = {
       signInSuccessUrl: "dashboard",
       signInOptions: [
-        //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        //firebase.auth.EmailAuthProvider.PROVIDER_ID
       ],
     };
     this.ui = new firebaseui.auth.AuthUI(firebase.auth());

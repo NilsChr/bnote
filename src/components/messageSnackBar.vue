@@ -13,7 +13,6 @@ this.$store.dispatch("userFeedback/setText", {
       :color="color"
     >
       {{ text }}
-
       <template v-slot:action="{ attrs }">
         <v-btn
           color="white"

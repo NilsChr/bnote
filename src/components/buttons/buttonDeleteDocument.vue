@@ -41,11 +41,11 @@ export default {
         this.$store.dispatch("documents/deleteSelectedDocument").then(() => {
           this.$store.dispatch("userFeedback/setText", {
             text: "Document succesfully deleted",
-            color: "success"
+            color: "success",
           });
         });
       }
-    }
+    },
   },
   computed: {
     canEdit: {
@@ -54,9 +54,9 @@ export default {
       },
       set(val) {
         this.$store.dispatch("quillJS/setCanEdit", val);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

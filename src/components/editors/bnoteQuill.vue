@@ -25,16 +25,10 @@ export default {
   },
   watch: {
     value(newVal) {
-      // Only update the content if it's changed from an external source
-      // or else it'll act weird when you try to type anything
       if (newVal !== this.editorContent) {
         this.editorInstance.pasteHTML(newVal);
       }
     }
-  },
-  beforeDestroy() {
-    // Turn off all listeners set on text-change
-    //this.editorInstance.off("text-change");
   }
 };
 </script>

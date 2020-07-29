@@ -23,7 +23,7 @@ export default {
     toggleEdit() {
       this.canEdit = !this.canEdit;
       this.$store.dispatch("quillJS/disableEditor", this.canEdit);
-    }
+    },
   },
   computed: {
     canEdit: {
@@ -32,9 +32,9 @@ export default {
       },
       set(val) {
         this.$store.dispatch("quillJS/setCanEdit", val);
-      }
-    }
-  }
+      },
+    },
+  },
 };
 </script>
 

@@ -14,10 +14,6 @@
         <v-layout justify-end>
           <buttonDeleteDocument />
           <buttonToggleEdit />
-
-          <!--
-          <buttonShareDocument />
-          -->
         </v-layout>
       </v-flex>
 

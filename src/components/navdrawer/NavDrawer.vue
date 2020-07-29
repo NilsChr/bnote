@@ -27,17 +27,7 @@
 
       <v-container>
         <v-layout justify-end>
-          <v-btn
-            class="mx-2 ma-0"
-            fab
-            dark
-            color="secondary"
-            small
-            style="width:30px; height:30px;"
-            @click="createNewDocument"
-          >
-            <v-icon dark>mdi-plus</v-icon>
-          </v-btn>
+          <ButtonAddNewDocument />
         </v-layout>
       </v-container>
     </v-list-item>
@@ -73,30 +63,20 @@
 </template>
 
 <script>
+import ButtonAddNewDocument from '../buttons/buttonAddNewDocument';
+
 export default {
   name: "bnote-navdrawer",
+  components: {
+    ButtonAddNewDocument
+  },
   data() {
     return {
       drawer: true,
-      mini: false
+      mini: false,
     };
   },
   methods: {
-    async createNewDocument() {
-      try {
-        let newDoc = await this.$store.dispatch("documents/createNewDocument");
-        this.$store.dispatch("userFeedback/setText", {
-          text: "Document succesfully created",
-          color: "success"
-        });
-        this.$store.dispatch("documents/setSelectedDocument", newDoc);
-      } catch (e) {
-        this.$store.dispatch("userFeedback/setText", {
-          text: "Something went wrong when creating document",
-          color: "error"
-        });
-      }
-    },
     loadDocument(document) {
       this.$store.dispatch("documents/setSelectedDocument", document);
     },
@@ -107,7 +87,7 @@ export default {
     getTopic(document) {
       if (document.data.topic === "") return "No topic";
       return document.data.topic;
-    }
+    },
   },
   computed: {
     searchTitle: {
@@ -116,7 +96,7 @@ export default {
       },
       get() {
         return this.$store.getters["drawer/search_title"];
-      }
+      },
     },
     searchTopic: {
       set(val) {
@@ -124,7 +104,7 @@ export default {
       },
       get() {
         return this.$store.getters["drawer/search_topic"];
-      }
+      },
     },
     documents() {
       return this.$store.getters["documents/documents"];
@@ -133,28 +113,31 @@ export default {
       return this.$store.getters["documents/selectedDocumentMeta"];
     },
     filteredDocuments() {
-        let documents = JSON.parse(JSON.stringify(this.documents));
-        let filtered = [];
-        for(let i = 0; i < documents.length; i++) {
-            let topicMatch = documents[i].data.topic.toLowerCase().includes(this.searchTopic.toLowerCase());
-            if(this.searchTopic == '') topicMatch = true;
+      let documents = JSON.parse(JSON.stringify(this.documents));
+      let filtered = [];
+      for (let i = 0; i < documents.length; i++) {
+        let topicMatch = documents[i].data.topic
+          .toLowerCase()
+          .includes(this.searchTopic.toLowerCase());
+        if (this.searchTopic == "") topicMatch = true;
 
-            let titleMatch = documents[i].data.title.toLowerCase().includes(this.searchTitle.toLowerCase());
-            if(this.searchTitle == '') titleMatch = true;
+        let titleMatch = documents[i].data.title
+          .toLowerCase()
+          .includes(this.searchTitle.toLowerCase());
+        if (this.searchTitle == "") titleMatch = true;
 
-            if(topicMatch && titleMatch)
-                filtered.push(documents[i]);
-        }
+        if (topicMatch && titleMatch) filtered.push(documents[i]);
+      }
 
-        return filtered;
-    }
-  }
+      return filtered;
+    },
+  },
 };
 </script>
 
 <style scoped>
 .selected {
-  border-left: 10px solid #69bd98; /* rgb(142, 202, 51); */
+  border-left: 10px solid #69bd98;
   background-color: rgb(247, 247, 247);
 }
 </style>
