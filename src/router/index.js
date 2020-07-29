@@ -8,12 +8,13 @@ import Dashboard from '@/views/Dashboard'
 Vue.use(Router)
 
 var routes = [
-  { path: '/auth', name: 'auth', component: Auth, meta: { guestOnly: true } },
-  { path: '/dashboard', name: 'dashboard', component: Dashboard, meta: { requireAuth: true } },
+  { path: '/auth', name: 'auth', component: Auth, meta: { title: 'Bnote - auth', guestOnly: true } },
+  { path: '/dashboard', name: 'dashboard', component: Dashboard, meta: { title: 'Bnote - dashboard', requireAuth: true } },
   { path: '*', redirect: '/auth' }
 ]
 
 export const router = new Router({
+  base: '/bnote/',
   mode: 'history',
   routes
 })
