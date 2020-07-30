@@ -45,7 +45,6 @@
     </v-list>
 
     <v-divider></v-divider>
-
     <v-list dense two-line subheader v-if="!mini">
       <v-list-item
         v-for="document in filteredDocuments"
@@ -63,12 +62,12 @@
 </template>
 
 <script>
-import ButtonAddNewDocument from '../buttons/buttonAddNewDocument';
+import ButtonAddNewDocument from "../buttons/buttonAddNewDocument";
 
 export default {
   name: "bnote-navdrawer",
   components: {
-    ButtonAddNewDocument
+    ButtonAddNewDocument,
   },
   data() {
     return {

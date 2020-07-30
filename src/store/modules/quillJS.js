@@ -68,7 +68,10 @@ const actions = {
         Quill.register('modules/imageCompress', ImageCompress);
 
       state.editorInstance = new Quill("#quill-editor", state.editorOpts);
-      state.editorInstance.on("text-change", onEditorContentChange);
+      //state.editorInstance.on("text-change", onEditorContentChange);
+      state.editorInstance.on("editor-change", onEditorContentChange);
+      //state.editorInstance.on("selection-change", onEditorContentChange);
+
       setEditorContent();
       if (payload) state.editorInstance.root.innerHTML = payload;
 
@@ -85,9 +88,10 @@ const actions = {
     };
 
     const setEditorContent = function() {
-      state.editorContent = state.editorInstance.getText().trim()
+      /*state.editorContent = state.editorInstance.getText().trim()
         ? state.editorInstance.root.innerHTML
-        : "";
+        : "";*/
+      state.editorContent = state.editorInstance.root.innerHTML;
     };
 
     initializeEditor();
