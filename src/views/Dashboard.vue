@@ -1,8 +1,8 @@
 <template>
   <v-container fluid class="pt-0 pl-0 pb-0" fill-height style="background-color: rgb(245,245,245);">
     <NavBar />
-    <NavDrawer />
-    <Document />
+    <NavDrawerMongo />
+    <DocumentMongo />
     <MessageSnackBar />
   </v-container>
 </template>
@@ -11,26 +11,31 @@
 import auth from "@/auth";
 import NavBar from "@/components/navbar/NavBar.vue";
 import NavDrawer from "@/components/navdrawer/NavDrawer.vue";
+import NavDrawerMongo from "@/components/navdrawer/NavDrawerMongo.vue";
+
 import MessageSnackBar from "@/components/messageSnackBar.vue";
 import Document from "@/components/document.vue";
+import DocumentMongo from "@/components/documentMongo.vue";
 
 export default {
   name: "auth-success",
   components: {
     NavBar,
     NavDrawer,
+    NavDrawerMongo,
     MessageSnackBar,
-    Document
+    Document,
+    DocumentMongo
   },
   computed: {
     user() {
       return this.$store.getters["user/user"];
-    }
+    },
   },
   methods: {
     logOut() {
       auth.logout();
-    }
+    },
   },
   created() {
     /*
@@ -39,7 +44,8 @@ export default {
       color: "success"
     });
     */
-  }
+    //this.$store.dispatch("user/loadProfile");
+  },
 };
 </script>
 

@@ -1,6 +1,7 @@
 import { db } from "../../db"
 import {store} from '../index';
 import Vue from 'vue'
+import { mongoService } from "../../db/mongoService";
 
 const state = {
     documents: [],
@@ -86,6 +87,7 @@ const actions = {
     createNewDocument: ({commit}, data) => {
         return new Promise((resolve, reject) => {
             try {
+                //mongoService.createDocument();
                 db.createNewDocument().then((data) => {
                     resolve(data);
                     store.dispatch('quillJS/setCanEdit', true);

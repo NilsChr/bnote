@@ -1,7 +1,8 @@
 import Quill from "quill";
 import { db } from "../../db";
 
-import ImageCompress from 'quill-image-compress';
+import ImageCompress from "quill-image-compress";
+import { mongoService } from "../../db/mongoService";
 
 window.hljs.configure({
   // optionally configure hljs
@@ -12,8 +13,7 @@ const state = {
   editorContent: null,
   editorInstance: null,
   editorOpts: {
-    bounds: '#quill-editor',
-
+    bounds: "#quill-editor",
     modules: {
       syntax: true,
       toolbar: [
@@ -37,9 +37,9 @@ const state = {
         quality: 0.7, // default
         maxWidth: 1000, // default
         maxHeight: 1000, // default
-        imageType: 'image/jpeg/png', // default
+        imageType: "image/jpeg/png", // default
         debug: false, // default
-      }
+      },
     },
     theme: "snow",
   },
@@ -64,16 +64,21 @@ const mutations = {
 
 const actions = {
   initEditor: ({ commit }, payload) => {
+    // Remove Old Editor Toolbars
+    let existingToolBars = document.getElementsByClassName("ql-toolbar");
+    existingToolBars.forEach((bar) => bar.remove());
+
     const initializeEditor = function() {
-        Quill.register('modules/imageCompress', ImageCompress);
+      Quill.register("modules/imageCompress", ImageCompress);
 
       state.editorInstance = new Quill("#quill-editor", state.editorOpts);
-      //state.editorInstance.on("text-change", onEditorContentChange);
-      state.editorInstance.on("editor-change", onEditorContentChange);
+      state.editorInstance.on("text-change", onEditorContentChange);
+      //state.editorInstance.on("editor-change", onEditorContentChange);
       //state.editorInstance.on("selection-change", onEditorContentChange);
 
       setEditorContent();
-      if (payload) state.editorInstance.root.innerHTML = payload;
+      //if (payload) state.editorInstance.root.innerHTML = payload;
+      state.editorInstance.root.innerHTML = payload;
 
       if (!state.canEdit) {
         let qel = document.getElementsByClassName("ql-toolbar")[0];
@@ -84,7 +89,9 @@ const actions = {
 
     const onEditorContentChange = function() {
       setEditorContent();
-      db.updateDocumentData(state.editorContent);
+      //console.log(state.editorContent)
+      mongoService.updateDocumentData(state.editorContent);
+      //db.updateDocumentData(state.editorContent);
     };
 
     const setEditorContent = function() {

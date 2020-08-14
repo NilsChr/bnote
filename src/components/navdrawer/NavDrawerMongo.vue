@@ -50,7 +50,7 @@
         v-for="document in filteredDocuments"
         :key="document.id"
         @click="loadDocument(document)"
-        v-bind:class="{selected: selectedDocument && selectedDocument.id == document.id}"
+        v-bind:class="{selected: selectedDocument && selectedDocument == document._id}"
       >
         <v-list-item-content>
           <v-list-item-title v-text="getTitle(document)"></v-list-item-title>
@@ -65,7 +65,7 @@
 import ButtonAddNewDocument from "../buttons/buttonAddNewDocument";
 
 export default {
-  name: "bnote-navdrawer",
+  name: "bnote-navdrawer-mongo",
   components: {
     ButtonAddNewDocument,
   },
@@ -77,15 +77,17 @@ export default {
   },
   methods: {
     loadDocument(document) {
-      this.$store.dispatch("documents/setSelectedDocument", document);
+       // console.log(document)
+        
+      this.$store.dispatch("documents_v2/setSelectedDocument", document);
     },
     getTitle(document) {
-      if (document.data.title === "") return "Untitled document";
-      return document.data.title;
+      if (document.title === "") return "Untitled document";
+      return document.title;
     },
     getTopic(document) {
-      if (document.data.topic === "") return "No topic";
-      return document.data.topic;
+      if (document.topics.length === 0) return "No topic";
+      return document.topics.reduce((a,b) => a + ' ' + b);
     },
   },
   computed: {
@@ -106,21 +108,26 @@ export default {
       },
     },
     documents() {
-      return this.$store.getters["documents/documents"];
+      return this.$store.getters["documents_v2/documents"];
     },
     selectedDocument() {
-      return this.$store.getters["documents/selectedDocumentMeta"];
+      return this.$store.getters["documents_v2/activeDocumentID"];
     },
     filteredDocuments() {
       let documents = JSON.parse(JSON.stringify(this.documents));
       let filtered = [];
       for (let i = 0; i < documents.length; i++) {
-        let topicMatch = documents[i].data.topic
-          .toLowerCase()
-          .includes(this.searchTopic.toLowerCase());
+        let topicMatch = false;
+        for(let j = 0; j < documents[i].topics.length; j++) {
+            let topic = documents[i].topics[j].toLowerCase();
+            if(topic.includes(this.searchTopic.toLowerCase())) {
+                topicMatch = true;
+            }
+        }
         if (this.searchTopic == "") topicMatch = true;
 
-        let titleMatch = documents[i].data.title
+
+        let titleMatch = documents[i].title
           .toLowerCase()
           .includes(this.searchTitle.toLowerCase());
         if (this.searchTitle == "") titleMatch = true;

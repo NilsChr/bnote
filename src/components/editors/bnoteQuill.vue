@@ -1,6 +1,6 @@
 <template>
-  <v-flex class="simple-editor" xs12 style="height:100%;" >
-    <v-flex class="editor-note" id="quill-editor" ref="editorNode" style="background-color:white" ></v-flex>
+  <v-flex class="simple-editor" xs12 style="height:100%;"  v-bind:class="{ hidden: !documentExists }">
+    <v-flex class="editor-note" id="quill-editor" ref="editorNode" style="background-color:white"></v-flex>
   </v-flex>
 </template>
 
@@ -21,6 +21,9 @@ export default {
         }, set(val) {
             return this.$store.dispatch['quillJS/setEditorContent'];
         }
+    },
+    documentExists() {
+      return this.$store.getters['documents_v2/activeDocument'] != null;
     }   
   },
   watch: {
@@ -35,6 +38,9 @@ export default {
 
 <style scoped>
 .hideToolbar .ql-toolbar .ql-snow {
+  display: none;
+}
+.hidden {
   display: none;
 }
 

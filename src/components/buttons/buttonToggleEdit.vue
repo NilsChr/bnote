@@ -8,6 +8,7 @@
     style="width:40px; height:40px;"
     @click="toggleEdit()"
     key="btnEdit"
+    v-if="hasRights"
   >
     <v-icon dark>mdi-pencil</v-icon>
   </v-btn>
@@ -24,6 +25,8 @@ export default {
       this.canEdit = !this.canEdit;
       this.$store.dispatch("quillJS/disableEditor", this.canEdit);
     },
+
+
   },
   computed: {
     canEdit: {
@@ -34,6 +37,16 @@ export default {
         this.$store.dispatch("quillJS/setCanEdit", val);
       },
     },
+    hasRights() {
+      let user = this.$store.getters['user/user'];
+      let doc = this.$store.getters['documents_v2/activeDocument'];
+
+      if(user.googleId == doc.authorId) return true;
+      for(let i = 0; i < doc.sharedWith.length; i++) {
+        if(user.googleId == doc.sharedWith[i].authorId && doc.sharedWith[i].editor) return true;
+      }
+      return false;
+    }
   },
 };
 </script>

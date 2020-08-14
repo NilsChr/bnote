@@ -38,12 +38,15 @@ export default {
     deleteDocument(willDelete) {
       this.deleteModal = false;
       if (willDelete) {
-        this.$store.dispatch("documents/deleteSelectedDocument").then(() => {
-          this.$store.dispatch("userFeedback/setText", {
+        let that = this;
+        this.$store.dispatch("documents_v2/deleteSelectedDocument").then(() => {
+          that.$store.dispatch("userFeedback/setText", {
             text: "Document succesfully deleted",
             color: "success",
           });
-        });
+          that.$store.dispatch("documents_v2/setActiveDocument", null);
+          that.$store.dispatch("quillJS/setCanEdit", false);
+        })
       }
     },
   },

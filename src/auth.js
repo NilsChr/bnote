@@ -2,6 +2,7 @@ import firebase from "firebase/app";
 import "firebase/firebase-auth";
 import * as firebaseui from "firebaseui";
 import { db } from "./db";
+import { mongoService } from "./db/mongoService";
 
 const config = {
   apiKey: process.env.VUE_APP_API_KEY,
@@ -25,13 +26,33 @@ const auth = {
     this.uiConfig = {
       signInSuccessUrl: "dashboard",
       signInOptions: [
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        //firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+        firebase.auth.EmailAuthProvider.PROVIDER_ID,
+        { provider: firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+          customParameters: { prompt: 'select_account' },
+      }
       ],
     };
     this.ui = new firebaseui.auth.AuthUI(firebase.auth());
 
-    firebase.auth().onAuthStateChanged((user) => {
-      this.context.$store.dispatch("user/setCurrentUser");
+    firebase.auth().onAuthStateChanged(async (user) => {
+      //console.log(firebase.auth().currentUser.getIdToken());
+
+      try {
+        if(!user) throw 'Not logged in';
+        let currentProfile = null;
+        currentProfile = await mongoService.getProfile();
+        if(!currentProfile) {
+          currentProfile = await mongoService.createUser();
+        }
+        this.context.$store.dispatch("user/setCurrentUser", currentProfile);
+        //console.log('Current Profile', currentProfile);
+        //await mongoService.createUser(firebase.auth().currentUser);
+        //this.context.$store.dispatch("user/setCurrentUser");
+      } catch (e) {
+        console.log('No profile created', e)
+      }
+
 
       let requireAuth = this.context.$route.matched.some(
         (record) => record.meta.requireAuth
@@ -53,6 +74,7 @@ const auth = {
     return this.context ? firebase.auth().currentUser : null;
   },
   logout() {
+    console.log('sign out');
     firebase.auth().signOut();
   },
 };

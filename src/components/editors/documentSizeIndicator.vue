@@ -25,8 +25,10 @@ export default {
       }
     },
     documentSize() {
-      let max = this.$store.getters["documents/maxDocumentSize"];
-      let current = this.$store.getters["documents/currentDocumentSize"];
+      //let max = this.$store.getters["documents/maxDocumentSize"];
+      //let current = this.$store.getters["documents/currentDocumentSize"];
+      let max = this.$store.getters["documents_v2/maxDocumentSize"];
+      let current = this.$store.getters["documents_v2/currentDocumentSize"];
       return (current / max) * 100;
     }
   }
