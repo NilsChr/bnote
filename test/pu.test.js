@@ -65,12 +65,12 @@ async function signOut(page) {
   await expect(page).toMatch("google");
 }
 
-describe("Google", () => {
+describe("BNOTE", () => {
   beforeAll(async () => {
     jest.setTimeout(15000);
     const context = await browser.createIncognitoBrowserContext();
   });
-  it("should open browser", async () => {
+  it("Should log in and out for testuser 1 and 2", async () => {
     const page = await context.newPage();
     await page.goto("http://localhost:" + PORT + "/index.html", {
       waitUntil: "domcontentloaded",
