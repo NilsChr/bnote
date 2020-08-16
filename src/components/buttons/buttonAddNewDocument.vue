@@ -7,6 +7,7 @@
     small
     style="width:30px; height:30px;"
     @click="createNewDocument"
+    id="blogal-btn-addnewdoc"
   >
     <v-icon dark>mdi-plus</v-icon>
   </v-btn>

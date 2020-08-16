@@ -45,12 +45,13 @@
     </v-list>
 
     <v-divider></v-divider>
-    <v-list dense two-line subheader v-if="!mini">
+    <v-list dense two-line subheader v-if="!mini" id="documents-list">
       <v-list-item
         v-for="document in filteredDocuments"
         :key="document.id"
         @click="loadDocument(document)"
         v-bind:class="{selected: selectedDocument && selectedDocument == document._id}"
+        
       >
         <v-list-item-content>
           <v-list-item-title v-text="getTitle(document)"></v-list-item-title>
