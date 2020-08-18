@@ -74,7 +74,7 @@
               </v-chip>
             </template>
           </v-combobox>
-          <v-progress-circular v-if="loadingShares" indeterminate color="primary"></v-progress-circular>
+          <v-progress-linear v-if="loadingShares" indeterminate color="primary"></v-progress-linear>
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -115,6 +115,7 @@ export default {
       for (let i = 0; i < dod.sharedWith.length; i++) {
         let id = dod.sharedWith[i].authorId;
         let user = await mongoService.getUser(id);
+        console.log('GOT: ' , user);
         let share = {
           _id: id,
           authorId: id,
@@ -128,6 +129,7 @@ export default {
       this.loadingShares = false;
     },
     shareDocument(willShare) {
+
       this.dialog = false;
       if (!this.document) return;
       let shareComplete = false;
@@ -145,12 +147,11 @@ export default {
         let sharedWith = 0;
         if (this.shareWith.length == 0) shareComplete = true;
         if (this.unshare.length == 0) unshareComplete = true;
-        console.log('sharing with',this.shareWith)
+
         this.shareWith.forEach(
           async function (user) {
-        console.log('sharing with',user)
             let doc = await mongoService.shareDocument(this.document._id, {
-              authorId: user.authorId,
+              authorId: user._id,
               editor: user.editor,
             });
             sharedWith++;
@@ -233,6 +234,7 @@ export default {
                 authorId: u.googleId,
               };
             });
+          
         }.bind(this),
         250
       );

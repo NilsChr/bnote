@@ -18,6 +18,10 @@
           <v-list-item-title @click="option.action">{{option.title}}</v-list-item-title>
         </v-list-item>
         -->
+        <v-list-item id="labelName" :key="'labelName'">
+          <v-list-item-title >{{user.nickName}}</v-list-item-title>
+        </v-list-item>
+        <v-divider></v-divider>
         <v-list-item id="btnprofile" :key="'btnprofile'">
           <v-list-item-title @click="goToProfile">Profile</v-list-item-title>
         </v-list-item>

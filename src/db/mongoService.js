@@ -106,7 +106,7 @@ export const mongoService = {
     this.updateDocumentTimeout = setTimeout(async function() {
       let id = store.getters["documents_v2/activeDocumentID"];
       let doc = store.getters["documents_v2/activeDocument"];
-
+      console.log('Updating', doc);
       let newDoc = await axios.put(uri + "/documents/" + id, doc);
       //store.dispatch("documents_v2/updateDocument", newDoc.data);
     }, 200);
@@ -139,6 +139,7 @@ export const mongoService = {
    * @param {*} data requires authorId and editor {authorId: id, editor: boolean}
    */
   async shareDocument(documentId, data) {
+    console.log('SHARE WITH', data);
     return new Promise(async (resolve, reject) => {
       try {
         let sharedDocument = await axios.put(

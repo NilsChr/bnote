@@ -96,12 +96,14 @@ const actions = {
   updateDocumentTitle: async ({ commit, dispatch, state }, title) => {
     let doc = state.documents.filter((d) => d._id == state.activeDocumentID)[0];
     doc.title = title;
+    commit('setActiveDocument', doc);
     mongoService.updateDocument();
     dispatch("reloadDocuments");
   },
   updateDocumentTopics: async ({ commit, dispatch, state }, topics) => {
     let doc = state.documents.filter((d) => d._id == state.activeDocumentID)[0];
     doc.topics = topics;
+    commit('setActiveDocument', doc);
     mongoService.updateDocument();
     dispatch("reloadDocuments");
   },

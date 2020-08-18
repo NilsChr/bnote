@@ -41,9 +41,9 @@ export default {
       let user = this.$store.getters['user/user'];
       let doc = this.$store.getters['documents_v2/activeDocument'];
 
-      if(user.googleId == doc.authorId) return true;
+      if(user._id == doc.authorId) return true;
       for(let i = 0; i < doc.sharedWith.length; i++) {
-        if(user.googleId == doc.sharedWith[i].authorId && doc.sharedWith[i].editor) return true;
+        if(user._id == doc.sharedWith[i].authorId && doc.sharedWith[i].editor) return true;
       }
       return false;
     }

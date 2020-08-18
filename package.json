@@ -3,7 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "test": "jest --runInBand || exit 0",
+    "test": "find ./test -name '*.test.js' | xargs mocha -R spec",
+    "test_old": "jest --runInBand || exit 0",
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build"
   },
@@ -15,6 +16,7 @@
     "highlight.js": "^10.1.2",
     "lz-string": "^1.4.4",
     "material-design-icons-iconfont": "^5.0.1",
+    "playwright": "^1.3.0",
     "quill": "^1.3.7",
     "quill-image-compress": "^1.2.7",
     "vue": "^2.6.11",
@@ -29,6 +31,7 @@
     "@vue/cli-service": "~4.4.0",
     "jest": "^26.4.0",
     "jest-puppeteer": "^4.4.0",
+    "mocha": "^8.1.1",
     "puppeteer": "^5.2.1",
     "sass": "^1.19.0",
     "sass-loader": "^8.0.0",

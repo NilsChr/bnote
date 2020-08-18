@@ -1,6 +1,6 @@
 import "expect-puppeteer";
-import axios from "axios";
-jest.mock("axios");
+import PUPPETEER_HELPERS from "./puppeteer_helpers";
+import SELECTORS from "./puppeteer_selectors";
 
 const testUsers = {
   testUser1: {
@@ -17,7 +17,7 @@ const testUsers = {
 
 const PORT = 8085;
 const TEST_TIMEOUT = 60000;
-
+/*
 const SELECTORS = {
   googleSignInWithEmail:
     "#firebaseui-auth-container > div > div.firebaseui-card-content > form > ul > li:nth-child(1) > button",
@@ -38,6 +38,7 @@ function delay(time) {
   });
 }
 
+/*
 async function signInWithUser(page, user) {
   await page.waitForSelector(SELECTORS.googleSignInWithEmail);
   await page.click(SELECTORS.googleSignInWithEmail);
@@ -56,8 +57,8 @@ async function signInWithUser(page, user) {
   await page.waitForSelector(SELECTORS.TOOLBAR_TITLE);
   await expect(page).toMatch("BLOGAL");
   await delay(500);
-
 }
+
 
 async function signOut(page) {
   let navBarAvatar =
@@ -87,12 +88,10 @@ function getDocumentsLength(page) {
     }
   });
 }
-
+*/
 describe("BNOTE", () => {
   beforeAll(async (done) => {
     console.log("Tests starting");
-    //let t = await axios.get('http://localhost:3000/api/test_setup');
-
     jest.setTimeout(30000);
     const context = await browser.createIncognitoBrowserContext();
     const page = await context.newPage();
@@ -100,9 +99,6 @@ describe("BNOTE", () => {
       var xmlHttp = new XMLHttpRequest();
       xmlHttp.open("GET", "http://localhost:3000/api/test_setup", false); // false for synchronous request
       xmlHttp.send(null);
-
-      // this will be executed within the page, that was loaded before
-      //document.body.style.background = '#000';
     });
     done();
   }, TEST_TIMEOUT);
@@ -158,24 +154,22 @@ describe("BNOTE", () => {
       await page.goto("http://localhost:" + PORT + "/index.html", {
         waitUntil: "domcontentloaded",
       });
-      await signInWithUser(page, testUsers.testUser1);
+      await PUPPETEER_HELPERS.signInWithUser(page, testUsers.testUser1);
    //   await delay(1000);
-      let childsBeforeNewAdded = await getDocumentsLength(page);
-
-
-      await page.waitForSelector(SELECTORS.BTN_NEW_DOCUMENT);
-      await page.click(SELECTORS.BTN_NEW_DOCUMENT);
-      await delay(1000);
-      let childsAfterNewAdded = await getDocumentsLength(page);
+      let childsBeforeNewAdded = await PUPPETEER_HELPERS.getDocumentsLength(page);
+      await page.waitForSelector(SELECTORS.STATE_DASHBOARD.drawer.btn_newDocument);
+      await page.click(SELECTORS.STATE_DASHBOARD.drawer.btn_newDocument);
+      await PUPPETEER_HELPERS.delay(1000);
+      let childsAfterNewAdded = await PUPPETEER_HELPERS.getDocumentsLength(page);
       expect(childsAfterNewAdded).toBe(childsBeforeNewAdded + 1);
 
-      await signOut(page);
+      await PUPPETEER_HELPERS.signOut(page);
   //    await delay(1000);
 
-      await signInWithUser(page, testUsers.testUser2);
+      await PUPPETEER_HELPERS.signInWithUser(page, testUsers.testUser2);
   //    await delay(1000);
 
-      let listElements = await getDocumentsLength(page);
+      let listElements = await PUPPETEER_HELPERS.getDocumentsLength(page);
       expect(listElements).toBe(0);
     },
     TEST_TIMEOUT
@@ -187,10 +181,16 @@ describe("BNOTE", () => {
       waitUntil: "domcontentloaded",
     });
     //await signInWithUser(page, testUsers.testUser1);
-    const element = await page.$(SELECTORS.googleSignInWithEmail);
+    const element = await page.$(SELECTORS.STATE_LOGIN.googleSignInWithEmail);
 
     await page.evaluate(el => el.style.border = "5px solid blue", element);
-    await delay(5000);
+    await PUPPETEER_HELPERS.delay(1000);
+    await PUPPETEER_HELPERS.signInWithUser(page, testUsers.testUser1);
+    await PUPPETEER_HELPERS.delay(1000);
+    await PUPPETEER_HELPERS.signOut(page);
+   // await PUPPETEER_HELPERS.delay(1000);
+   // await expect(page).toMatch("google");
+
   })
 
  /* it("create", async () => {
